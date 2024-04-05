@@ -1,8 +1,9 @@
 import express, { Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
 import axios from "axios";
-import https from "https";
+// import https from "https";
 import { randomUUID } from "crypto";
+import { HttpsProxyAgent } from "https-proxy-agent";
 
 // Constants for the server and API configuration
 const port = 3040;
@@ -59,7 +60,9 @@ async function* StreamCompletion(data: any) {
 
 // Setup axios instance for API requests with predefined configurations
 const axiosInstance = axios.create({
-	httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+	// httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+	httpsAgent: new HttpsProxyAgent('http://127.0.0.1:1080'),
+	proxy: false,
 	headers: {
 		accept: "*/*",
 		"accept-language": "en-US,en;q=0.9",
